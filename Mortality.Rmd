@@ -1,0 +1,78 @@
+---
+title: "Mortality document"
+output: html_document
+
+---
+```{r}
+library("dplyr")
+library("readxl")
+```
+
+
+```{r}
+dat <- read.csv("Dat.csv", header=T)
+View(dat)
+```
+
+
+
+```{r}
+# restructure the data to view important oneway.test
+Data <- dat %>% select(-Number.of.Educated)
+
+data <- Data[1:56, ]
+# View(data)
+
+plot(data$Years , data$Education.Rate, col=rep(2:3), main= "Education comparison across Races",  xlab = "Years" , ylab = "Number of educated")
+legend("topleft",c("black women","white women"),fill=c("red","green"))
+```
+
+```{r}
+# working education po[ and not rates]) 
+new_data <- dat %>% select(-Education.Rate)
+View(new_data)
+```
+
+```{r}
+# truncating the data...
+fine_data <- new_data[1:56, ]
+View(fine_data)
+```
+
+```{r}
+# some plots...
+plot(fine_data$Years,fine_data$Number.of.Educated,col=rep(2:3), main= "Education comparison across Races", xlab = "Years" , ylab = "Number of educated")
+legend("topright",c("black women","white women"),fill=c("red","green"))
+```
+
+
+```{r}
+plot(new_data$Years,new_data$Mortality.rate,col=rep(2:3), main= "mortality rates of (white and black  across the years", xlab = "Years" , ylab = "Mortality rates")
+legend("topright",c("black women","white women"),fill=c("red","green"))
+
+```
+
+
+```{r}
+plot(new_data$Income, new_data$Mortality.rate, main= "mortality rates (white and black women) vs average income earned by female gender", xlab = "Income" , ylab = "Mortality rate" )
+```
+
+```{r}
+# correlation plot
+attach(fine_data)
+Race <- factor(Race,c(0,1),, labels=c("Black","white"))
+```
+
+```{r}
+round(cor(cbind(Mortality.rate,Race,Young,Old,Income,Number.of.Educated)),2)
+```
+
+
+```{r}
+var <- lm( Mortality.rate ~ Young + Old + Income+ Number.of.Educated, data = fine_k <- data)
+summary(var)
+```
+```{r}
+var
+```
+
